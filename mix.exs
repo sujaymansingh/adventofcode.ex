@@ -2,12 +2,15 @@ defmodule Adventofcode.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :adventofcode,
-     version: "0.1.0",
-     elixir: "~> 1.4",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps()]
+    [
+      app: :adventofcode,
+      version: "0.1.0",
+      elixir: "~> 1.4",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      escript: [main_module: Adventofcode.CLI],
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application
