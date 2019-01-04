@@ -2,6 +2,7 @@ defmodule Adventofcode.Year2015.Day05 do
   @moduledoc """
   https://adventofcode.com/2015/day/5
   """
+  alias Adventofcode.Ngrams
 
   @doc """
   A string is 'nice' if
@@ -13,7 +14,7 @@ defmodule Adventofcode.Year2015.Day05 do
     chars = String.to_charlist(string)
 
     with true <- check_num_vowels(chars),
-         true <- check_repeated_chars(ngrams(chars, 2)),
+         true <- check_repeated_chars(Ngrams.generate(chars, 2)),
          true <- check_bad_substrings(string) do
       true
     else
@@ -72,7 +73,7 @@ defmodule Adventofcode.Year2015.Day05 do
       true
   """
   def has_non_overlapping_pair?(chars) do
-    has_nop?(ngrams(chars, 2), MapSet.new())
+    has_nop?(Ngrams.generate(chars, 2), MapSet.new())
   end
 
   defp has_nop?([bigram, bigram | tail], seen_bigrams) do
@@ -91,34 +92,11 @@ defmodule Adventofcode.Year2015.Day05 do
   defp has_nop?([], _), do: false
 
   defp has_xyx?(chars) do
-    chars |> ngrams(3) |> Enum.any?(&is_xyx?/1)
+    chars |> Ngrams.generate(3) |> Enum.any?(&is_xyx?/1)
   end
 
   defp is_xyx?([x, _, x]), do: true
   defp is_xyx?(_), do: false
-
-  @doc """
-  Split an list into ngrams of the given length
-
-    ## Examples
-    
-      iex> Adventofcode.Year2015.Day05.ngrams([1, 2, 3, 4], 2)
-      [[1, 2], [2, 3], [3, 4]]
-      iex> Adventofcode.Year2015.Day05.ngrams([1, 2, 3, 4], 3)
-      [[1, 2, 3], [2, 3, 4]]
-  """
-  def ngrams(items, size) do
-    ngrams(items, size, [])
-  end
-
-  def ngrams(items, size, acc) when length(items) < size do
-    Enum.reverse(acc)
-  end
-
-  def ngrams([h | t], size, acc) do
-    {ngram, _} = Enum.split([h | t], size)
-    ngrams(t, size, [ngram | acc])
-  end
 
   defmodule Part1 do
     @behaviour Adventofcode.LineSolver
