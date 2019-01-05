@@ -4,21 +4,6 @@ defmodule Adventofcode.Year2015.Day09Test do
   alias Adventofcode.Year2015.Day09
   doctest Day09
 
-  test "permutations" do
-    items = ["a", "b", "c"]
-
-    expected = [
-      ["a", "b", "c"],
-      ["a", "c", "b"],
-      ["b", "a", "c"],
-      ["b", "c", "a"],
-      ["c", "a", "b"],
-      ["c", "b", "a"]
-    ]
-
-    assert MapSet.new(Day09.permutations(items)) == MapSet.new(expected)
-  end
-
   test "Part1" do
     lines =
       """

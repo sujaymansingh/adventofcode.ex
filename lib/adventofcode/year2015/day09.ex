@@ -1,11 +1,5 @@
 defmodule Adventofcode.Year2015.Day09 do
-  def permutations([]) do
-    [[]]
-  end
-
-  def permutations(list) do
-    for h <- list, t <- permutations(list -- [h]), do: [h | t]
-  end
+  alias Adventofcode.Permutations
 
   @doc """
   Calculate the cost of the given route, given a map of distances
@@ -47,7 +41,7 @@ defmodule Adventofcode.Year2015.Day09 do
     Map.keys(costs)
     |> Enum.reduce(MapSet.new(), &add_both_points/2)
     |> Enum.to_list()
-    |> permutations()
+    |> Permutations.generate()
     |> Enum.map(&cost_of_route(&1, costs))
   end
 
