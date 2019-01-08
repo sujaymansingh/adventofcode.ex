@@ -48,4 +48,12 @@ defmodule Adventofcode.Graph do
       fn {x, y}, acc -> acc |> MapSet.put(x) |> MapSet.put(y) end
     )
   end
+
+  def cycles(x) when not is_list(x), do: cycles(Enum.to_list(x))
+
+  def cycles([h | t]) do
+    for permutation <- Permutations.generate(t) do
+      [h | permutation] ++ [h]
+    end
+  end
 end
